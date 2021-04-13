@@ -32,10 +32,12 @@ Arvore *criaArvore(){
 void menu (void){
     printf("\n\nEscolha uma opcao\n"
             "1-Inserir um elemento na Arvore\n"
-            "2-Exibir Arvore Pre-ordem\n"
-            "3-Exibir Arvore Ordem\n"
-            "4-Exibir Arvore Pos-ordem\n"
-            "5-Sair\n");
+            "2-Remover elemento da Arvore\n"
+            "3-Remover a arvore\n"
+            "4-Exibir Arvore Pre-ordem\n"
+            "5-Exibir Arvore Ordem\n"
+            "6-Exibir Arvore Pos-ordem\n"
+            "7-Sair\n");
 }
 
 void inserirEsquerda(No *no, int valor){
@@ -83,6 +85,57 @@ void inserirElemento(Arvore *arvore, int valor){
     }
 }
 
+No *removerElemento(No *raiz, int chave){
+    if(raiz == NULL){
+        printf("\nElemento nao encontrado!\n");
+        return NULL;
+    }
+    else{
+        if(raiz->conteudo == chave){
+            if(raiz->esquerda == NULL && raiz->direita == NULL){// remove folha
+                free(raiz);
+                return NULL;
+            }
+            else if(raiz->esquerda == NULL || raiz->direita == NULL){//remove com um filho
+                No *aux;
+                if(raiz->esquerda != NULL){
+                    aux = raiz->esquerda;
+                }
+                else{
+                    aux = raiz->direita;
+                }
+                free(raiz);
+                return aux;
+            }
+            else{
+                No *aux = raiz->direita;
+                while(aux->esquerda != NULL ){
+                    aux = aux->esquerda;
+                }
+                raiz->conteudo = aux ->conteudo;
+                aux->conteudo = chave;
+                raiz->direita = removerElemento(raiz->direita, chave);
+                return raiz;
+            }
+        }
+        else{
+            if(chave < raiz->conteudo){
+                raiz->esquerda = removerElemento(raiz->esquerda, chave);
+            }
+            else{
+                raiz->direita = removerElemento(raiz->direita, chave);
+            }
+            return raiz;
+        }
+    }
+}
+
+Arvore *removerArvore(Arvore *arvore){
+    free(arvore);
+    arvore = criaArvore();
+    return arvore;
+}
+
 void printArvorePre(No *raiz){
     if(raiz != NULL){
         printf("%d ", raiz->conteudo);
@@ -118,23 +171,31 @@ int main(void){
          scanf("%d", &opcao);
          switch (opcao){
             case 1:
-                printf("\ninserir um elemento na arvore: \n");
+                printf("\nInserir um elemento na arvore: \n");
                 scanf("%d", &valor);
                 inserirElemento(arvore, valor);
                 break;
             case 2:
-                printf("\nA arvore: \n");
-                printArvorePre(arvore->raiz);
+                printf("\nDigite o elemento que deseja remover: \n");
+                scanf("%d", &valor);
+                removerElemento(arvore->raiz, valor);
                 break;
             case 3:
-                printf("\nA arvore: \n");
-                printArvoreOrdem(arvore->raiz);
+                removerArvore(arvore);
                 break;
             case 4:
                 printf("\nA arvore: \n");
-                printArvorePos(arvore->raiz);
+                printArvorePre(arvore->raiz);
                 break;
             case 5:
+                printf("\nA arvore: \n");
+                printArvoreOrdem(arvore->raiz);
+                break;
+            case 6:
+                printf("\nA arvore: \n");
+                printArvorePos(arvore->raiz);
+                break;
+            case 7:
                 printf("\nFinalizando...\n");
                 break;
             default:
@@ -142,7 +203,7 @@ int main(void){
                 break;
          }
 
-     }while(opcao != 5);
+     }while(opcao != 7);
 
      return 0;
 }
