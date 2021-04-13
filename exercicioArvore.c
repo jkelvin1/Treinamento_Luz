@@ -130,10 +130,10 @@ No *removerElemento(No *raiz, int chave){
     }
 }
 
-Arvore *removerArvore(Arvore *arvore){
-    free(arvore);
-    arvore = criaArvore();
-    return arvore;
+void removerArvore(Arvore *arvore){
+    while(arvore->raiz != NULL){
+        arvore->raiz = removerElemento(arvore->raiz, arvore->raiz->conteudo);
+    }
 }
 
 void printArvorePre(No *raiz){
