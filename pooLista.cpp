@@ -95,7 +95,7 @@ Lista::Lista(){
     setFinal(NULL);
 }
 void Lista::insereInicio(int valor){
-    No *novo = new No();
+    No *novo = new No(valor);
     if(fim == NULL){
         fim = novo;
     }
@@ -161,11 +161,7 @@ void Lista::setFinal(No *n){
 
 /*Trabalhando com Pilha*/
 void Pilha::insereInicio(int valor){
-    No *novo = new No(valor);
-    
-    novo->setValor(valor);
-    novo->setProx(getInicio());
-    setInicio(novo);
+    Lista::insereInicio(valor);
 }
 void Pilha::exibe(){
     Pilha *aux = new Pilha;
@@ -192,22 +188,12 @@ Pilha::Pilha(){
     setFinal(NULL);
 }
 void Pilha::removePilha(){
-    removeInicio();
+    Lista::removeInicio();
 }
 
 /*Trabalhando com fila*/
 void Fila::insereFinal(int valor){
-    No *novo = new No(valor);
-    No *ponteiro = getFinal();
-
-    if(getInicio() == NULL){
-        setInicio(novo);
-    }
-    else{
-        ponteiro->setProx(novo);
-    }
-    novo->setProx(NULL);
-    setFinal(novo);
+    Lista::insereFinal(valor);
 }
 void Fila::exibe(){
     Fila *aux = new Fila;
@@ -233,7 +219,7 @@ Fila::Fila(){
     setFinal(NULL);
 }
 void Fila::removeFila(){
-    removeInicio();
+    Lista::removeInicio();
 }
 
 int main(){
