@@ -164,13 +164,13 @@ Pilha::Pilha(){
     setFinal(NULL);
 }
 void Pilha::inserePilha(int valor){
-    Lista::insereInicio(valor);
+    insereInicio(valor);
 }
 void Pilha::removePilha(){
-    Lista::removeInicio();
+    removeInicio();
 }
 void Pilha::exibePilha(){
-    Lista::exibe();
+    exibe();
 }
 
 
@@ -181,13 +181,13 @@ Fila::Fila(){
     setFinal(NULL);
 }
 void Fila::insereFila(int valor){
-    Lista::insereFinal(valor);
+    insereFinal(valor);
 }
 void Fila::removeFila(){
-    Lista::removeInicio();
+    removeInicio();
 }
 void Fila::exibeFila(){
-    Fila::exibe();
+    exibe();
 }
 
 
@@ -241,21 +241,21 @@ int main(){
                 cout << "Digite um valor para inserir na pilha: ";
                 cin >> valor;
                 pilha->inserePilha(valor);
-                pilha->exibe();
+                pilha->exibePilha();
                 break;
             case 6:
                 pilha->removePilha();
-                pilha->exibe();
+                pilha->exibePilha();
                 break;
             case 7:
                 cout << "Digite um valor para inserir na fila: ";
                 cin >> valor;
                 fila->insereFila(valor);
-                fila->exibe();
+                fila->exibeFila();
                 break;
             case 8:
                 fila->removeFila();
-                fila->exibe();
+                fila->exibeFila();
                 break;                    
             case 9:
                 cout<<"Finalizando"<<endl;
