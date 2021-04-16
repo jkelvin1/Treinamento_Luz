@@ -24,11 +24,11 @@ class Lista{
         void insereFinal(int valor);
         void removeInicio();
         void removeFinal();
+        virtual void exibe();
         void setInicio(No *n);
         No* getInicio();
         void setFinal(No *n);
         No* getFinal();
-        virtual void exibe();
     private:
         No *inicio;
         No *fim;
@@ -36,19 +36,18 @@ class Lista{
 
 class Pilha:public Lista{
     public:
-        void insereInicio(int);
-        void removePilha();
-        void exibe();
         Pilha();
-        
+        void inserePilha(int);
+        void removePilha();
+        void exibePilha();
 };
 
 class Fila:public Lista{
     public:
-        void insereFinal(int);
-        void removeFila();
-        void exibe();
         Fila();
+        void insereFila(int);
+        void removeFila();
+        void exibeFila();
 };
 
 /* Trabalhando com o Nó*/
@@ -75,21 +74,6 @@ void No::setProx(No *n){
 }
 
 /*Trabalhando com Lista*/
-void Lista::exibe(){
-    struct No *ponteiro;
-    if(inicio == NULL){
-        cout << "Lista esta vazia" << endl;
-    }
-    else{
-        ponteiro = inicio;
-        cout << "A lista e" << endl;
-        while (ponteiro != fim->getProx()){
-            cout << ponteiro->getValor() << " ";
-            ponteiro = ponteiro->getProx();
-        }
-    }
-    cout << endl;
-}
 Lista::Lista(){
     setInicio(NULL);
     setFinal(NULL);
@@ -146,6 +130,21 @@ void Lista::removeFinal(){
         fim = ponteiro;
     }
 }
+void Lista::exibe(){
+    struct No *ponteiro;
+    if(inicio == NULL){
+        cout << "A estrutura esta vazia" << endl;
+    }
+    else{
+        ponteiro = inicio;
+        cout << "A estrutura e" << endl;
+        while (ponteiro != fim->getProx()){
+            cout << ponteiro->getValor() << " ";
+            ponteiro = ponteiro->getProx();
+        }
+    }
+    cout << endl;
+}
 No* Lista::getInicio(){
     return inicio;
 }
@@ -160,67 +159,38 @@ void Lista::setFinal(No *n){
 }
 
 /*Trabalhando com Pilha*/
-void Pilha::insereInicio(int valor){
-    Lista::insereInicio(valor);
-}
-void Pilha::exibe(){
-    Pilha *aux = new Pilha;
-    if(getInicio() == NULL){
-        cout << "A pilha esta vazia" << endl;
-    }
-    else{
-        cout << "A Pilha" << endl;
-        while (getInicio() != NULL){
-            cout<< getInicio()->getValor() <<" ";
-            aux->insereInicio((getInicio())->getValor());
-		    removeInicio();
-        }   
-         while (aux->getInicio()!=NULL) {
-         insereInicio((aux->getInicio())->getValor());
-		 aux->removeInicio();
-      }
-    }
-    delete aux;
-    cout << endl;
-}
 Pilha::Pilha(){
     setInicio(NULL);
     setFinal(NULL);
 }
+void Pilha::inserePilha(int valor){
+    Lista::insereInicio(valor);
+}
 void Pilha::removePilha(){
     Lista::removeInicio();
 }
+void Pilha::exibePilha(){
+    Lista::exibe();
+}
+
+
 
 /*Trabalhando com fila*/
-void Fila::insereFinal(int valor){
-    Lista::insereFinal(valor);
-}
-void Fila::exibe(){
-    Fila *aux = new Fila;
-    if(getInicio() == NULL){
-        cout << " Fila vazia" << endl;
-    }
-    else{
-        while (getInicio() != NULL){
-            cout<< getInicio()->getValor() <<" ";
-            aux->insereFinal((getInicio())->getValor());
-		    removeInicio();
-        }
-        while(aux->getInicio() !=  NULL){
-            insereFinal((aux->getInicio())->getValor());
-		    aux->removeInicio();
-        }
-    }
-    delete aux;
-    cout << endl;
-}
 Fila::Fila(){
     setInicio(NULL);
     setFinal(NULL);
 }
+void Fila::insereFila(int valor){
+    Lista::insereFinal(valor);
+}
 void Fila::removeFila(){
     Lista::removeInicio();
 }
+void Fila::exibeFila(){
+    Fila::exibe();
+}
+
+
 
 int main(){
     int opcao, valor;
@@ -232,7 +202,6 @@ int main(){
 
     Fila *fila;
     fila = new Fila();
-    
     
     do{
         cout << endl;
@@ -271,22 +240,21 @@ int main(){
             case 5:
                 cout << "Digite um valor para inserir na pilha: ";
                 cin >> valor;
-                pilha->insereInicio(valor);
+                pilha->inserePilha(valor);
                 pilha->exibe();
                 break;
             case 6:
-                pilha->removeInicio();
+                pilha->removePilha();
                 pilha->exibe();
                 break;
             case 7:
                 cout << "Digite um valor para inserir na fila: ";
                 cin >> valor;
-                
-                fila->insereFinal(valor);
+                fila->insereFila(valor);
                 fila->exibe();
                 break;
             case 8:
-                fila->removeInicio();
+                fila->removeFila();
                 fila->exibe();
                 break;                    
             case 9:
