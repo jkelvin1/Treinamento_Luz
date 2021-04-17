@@ -173,8 +173,6 @@ void Pilha::exibePilha(){
     exibe();
 }
 
-
-
 /*Trabalhando com fila*/
 Fila::Fila(){
     setInicio(NULL);
