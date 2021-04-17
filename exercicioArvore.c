@@ -85,54 +85,61 @@ void inserirElemento(Arvore *arvore, int valor){
     }
 }
 
-No *removerElemento(No *raiz, int chave){
-    if(raiz == NULL){
-        printf("\nElemento nao encontrado!\n");
-        return NULL;
+No *removeNo(No *atual){
+    No *aux, *aux2;
+    if(atual->esquerda == NULL){
+        aux2 = atual->direita;
+        free(atual);
+        return aux2;
     }
-    else{
-        if(raiz->conteudo == chave){
-            if(raiz->esquerda == NULL && raiz->direita == NULL){// remove folha
-                free(raiz);
-                return NULL;
-            }
-            else if(raiz->esquerda == NULL || raiz->direita == NULL){//remove com um filho
-                No *aux;
-                if(raiz->esquerda != NULL){
-                    aux = raiz->esquerda;
-                }
-                else{
-                    aux = raiz->direita;
-                }
-                free(raiz);
-                return aux;
-            }
-            else{
-                No *aux = raiz->direita;
-                while(aux->esquerda != NULL ){
-                    aux = aux->esquerda;
-                }
-                raiz->conteudo = aux ->conteudo;
-                aux->conteudo = chave;
-                raiz->direita = removerElemento(raiz->direita, chave);
-                return raiz;
-            }
-        }
-        else{
-            if(chave < raiz->conteudo){
-                raiz->esquerda = removerElemento(raiz->esquerda, chave);
-            }
-            else{
-                raiz->direita = removerElemento(raiz->direita, chave);
-            }
-            return raiz;
-        }
+    aux = atual;
+    aux2 = atual->esquerda;
+    while (aux2->direita != NULL){
+        aux = aux2;
+        aux2 = aux2->direita;
     }
+    if(aux != atual){
+        aux->direita = aux2->esquerda;
+        aux2->esquerda = atual->esquerda;
+    }
+    aux2->direita = atual->direita;
+    free(atual);
+    return aux2;
 }
 
-void removerArvore(Arvore *arvore){
-    while(arvore->raiz != NULL){
-        arvore->raiz = removerElemento(arvore->raiz, arvore->raiz->conteudo);
+int removerElemento(Arvore *arvore, int chave){
+    if(arvore == NULL && arvore->raiz == NULL){
+        return 0;
+    }
+    No *anterior = NULL;
+    No *atual = arvore->raiz;
+    while(atual != NULL){
+        if(atual->conteudo == chave){
+            if(atual == arvore->raiz){
+                arvore->raiz = removeNo(atual);
+            }
+            else if(anterior->direita == atual){
+                anterior->direita = removeNo(atual);
+            }
+            else{
+                anterior->esquerda = removeNo(atual);
+            }
+            return 1;
+        }
+        anterior = atual;
+        if (chave > atual->conteudo){
+            atual = atual->direita;
+        }else{
+            atual = atual->esquerda;
+        }
+    }    
+}
+
+void removerArvore(No *raiz){
+    if(raiz != NULL){
+        removerArvore(raiz->esquerda);
+        removerArvore(raiz->direita);
+        free(raiz);
     }
 }
 
@@ -142,6 +149,7 @@ void printArvorePre(No *raiz){
         printArvorePre(raiz->esquerda);
         printArvorePre(raiz->direita);
     }
+    
 }
 
 void printArvoreOrdem(No *raiz){
@@ -178,10 +186,10 @@ int main(void){
             case 2:
                 printf("\nDigite o elemento que deseja remover: \n");
                 scanf("%d", &valor);
-                removerElemento(arvore->raiz, valor);
+                removerElemento(arvore, valor); //
                 break;
             case 3:
-                removerArvore(arvore);
+                removerArvore(arvore->raiz);
                 break;
             case 4:
                 printf("\nA arvore: \n");
