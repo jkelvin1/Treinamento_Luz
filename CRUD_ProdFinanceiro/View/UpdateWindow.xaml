@@ -1,0 +1,27 @@
+﻿<Window x:Class="CRUD_ProdFinanceiro.View.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CRUD_ProdFinanceiro.View"
+        mc:Ignorable="d"
+        Title="UpdateWindow" Height="450" Width="600" ResizeMode="CanMinimize">
+    <Grid>
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="0,20,0,0">Atualizar Cadastro</TextBlock>
+        </StackPanel>
+        <StackPanel Width="250" HorizontalAlignment="Left" Margin="10,80,0,0">
+            <TextBlock>Sigla</TextBlock>
+            <TextBox Text="{Binding Sigla}"></TextBox>
+            <TextBlock>Nome</TextBlock>
+            <TextBox Text="{Binding Nome}"></TextBox>
+            <TextBlock>Setor</TextBlock>
+            <TextBox Text="{Binding Setor}"></TextBox>
+            <TextBlock>Tipo</TextBlock>
+            <ComboBox Text="{Binding Tipo}">
+                <ComboBoxItem>Ação</ComboBoxItem>
+                <ComboBoxItem>Fundo</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</Window>
